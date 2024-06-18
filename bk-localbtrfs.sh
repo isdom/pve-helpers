@@ -73,9 +73,9 @@ echo "backup snapshot $tm/@local-btrfs-ro to $bk_lb"
 btrfs send -f $bk_lb $tm/@local-btrfs-ro
  
 if [ $? -eq 0 ];then
-   echo "backup snapshot $tm/@local-btrfs-ro to $bk_path success"
+   echo "backup snapshot $tm/@local-btrfs-ro to $bk_lb success"
 else
-   echo "backup snapshot $tm/@local-btrfs-ro to $bk_path failed!"
+   echo "backup snapshot $tm/@local-btrfs-ro to $bk_lb failed!"
 fi
 
 echo "delete read-only snapshot $tm/@local-btrfs-ro"
