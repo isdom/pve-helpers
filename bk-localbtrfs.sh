@@ -85,3 +85,9 @@ bk_vm=${bk_path}_${tm}
 # btrfs sub list -o $tm | awk -v tm=$tm '$9 ~/vm-/{print $9}' | awk -v tm=$tm '{print "btrfs send -f "tm"/"$0}'
 btrfs sub list -o $tm | awk '$9 ~/vm-/{print $9}' | awk -v bk=$bk_vm '{split($0,x,"/")}{print "btrfs send -f "bk"_"x[2]".snap "$0}' | bash
 btrfs sub list -o $tm | awk '$9 ~/vm-/{print $9}' | awk '{print "btrfs sub del -c "$0}' | bash
+
+echo "complete backup @local-btrfs to remote..."
+rm -r $tm
+cd ..
+umount $rfs_path
+rm -r $rfs_path
