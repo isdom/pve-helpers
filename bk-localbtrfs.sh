@@ -66,7 +66,21 @@ btrfs sub list @local-btrfs | awk '$9 ~/^image/{print $9}' | awk -v tm=$tm '{spl
 
 #backup snapshot to remote
 bk_path=$1/dump/$(hostname)
+bk_lb=${bk_path}_${tm}_local_btrfs.snap
+echo "backup snapshot $tm/@local-btrfs-ro to $bk_lb"
+btrfs send -f $bk_lb $tm/@local-btrfs-ro
+ 
+if [ $? -eq 0 ];then
+   echo "backup snapshot $tm/@local-btrfs-ro to $bk_path success"
+else
+   echo "backup snapshot $tm/@local-btrfs-ro to $bk_path failed!"
+fi
+
+echo "delete read-only snapshot $tm/@local-btrfs-ro"
+btrfs sub del -c $tm/@local-btrfs-ro
+
+#backup snapshot to remote
 bk_vm=${bk_path}_${tm}
 
 # btrfs sub list -o $tm | awk -v tm=$tm '$9 ~/vm-/{print $9}' | awk -v tm=$tm '{print "btrfs send -f "tm"/"$0}'
-btrfs sub list -o $tm | awk -v tm=$tm '$9 ~/vm-/{print $9}' | awk -v bk=$bk_vm '{print "btrfs send -f "bk"_"$0".snap "$0}'
+btrfs sub list -o $tm | awk '$9 ~/vm-/{print $9}' | awk -v bk=$bk_vm '{split($0,x,"/")}{print "btrfs send -f "bk"_"x[2]".snap "$0}' | bash
