@@ -64,8 +64,10 @@ fi
 echo "create all vm subvolume snapshot"
 btrfs sub list @local-btrfs | awk '$9 ~/^image/{print $9}' | awk -v tm=$tm '{split($0,x,"/")}{print "btrfs sub snap -r @local-btrfs/"$0" "tm"/"x[3]}' | bash
 
+mkdir $1/dump/${tm}
+
 #backup snapshot to remote
-bk_path=$1/dump/$(hostname)
+bk_path=$1/dump/${tm}/$(hostname)
 bk_lb=${bk_path}_${tm}_local_btrfs.snap
 echo "backup snapshot $tm/@local-btrfs-ro to $bk_lb"
 btrfs send -f $bk_lb $tm/@local-btrfs-ro
