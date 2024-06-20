@@ -39,22 +39,22 @@ if [ -d "./@" ]; then
 else
     echo "FS_TREE/@ 不存在，当前 PVE 子卷布局不满足备份条件，终止备份"
     cd ..
-    umount $rfs_path
-    rm -r $rfs_path
+    umount ${rfs_path}
+    rm -r ${rfs_path}
     exit -1
 fi
 
 #create snapshot for subvolume
-echo "create read-only snapshot for @ as @_$tm"
-btrfs sub snap -r @ @_$tm
+echo "create read-only snapshot for @ as @_${tm}"
+btrfs sub snap -r @ @_${tm}
 
 if [ $? -eq 0 ];then
-    echo "create read-only snapshot @_$tm for @ success"
+    echo "create read-only snapshot @_${tm} for @ success"
 else
     echo "create snapshot failed! exit"
     cd ..
-    umount $rfs_path
-    rm -r $rfs_path
+    umount ${rfs_path}
+    rm -r ${rfs_path}
     exit -1
 fi
 
