@@ -71,8 +71,8 @@ else
     echo "backup snapshot @_${tm} to ${bk_pve} failed!"
 fi
 
-echo "delete read-only snapshot @_${tm}"
-btrfs sub del @_${tm} -c
+# echo "delete read-only snapshot @_${tm}"
+# btrfs sub del @_${tm} -c
 
 echo "complete backup..."
 cd ..
