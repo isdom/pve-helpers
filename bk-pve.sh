@@ -33,6 +33,17 @@ fi
 
 cd $rfs_path
 
+# 检测 @ 子卷是否存在
+if [ -d "./@" ]; then
+    echo "FS_TREE/@ 存在，当前 PVE 子卷布局满足备份条件，继续执行备份"
+else
+    echo "FS_TREE/@ 不存在，当前 PVE 子卷布局不满足备份条件，终止备份"
+    cd ..
+    umount $rfs_path
+    rm -r $rfs_path
+    exit -1
+fi
+
 #create snapshot for subvolume
 echo "create read-only snapshot for @ as @_$tm"
 btrfs sub snap -r @ @_$tm
