@@ -15,23 +15,23 @@ fi
 
 # 生成17位时间戳字符串
 tm=$(date +'%Y%m%d_%H%M%S')
-rfs_path=./rfs_$tm
-mkdir $rfs_path
+rfs_path=./rfs_${tm}
+mkdir ${rfs_path}
 
 # 获取 UUID for btrfs device
 rid=$(lsblk -no UUID $(df -P / | awk 'END{print $1}'))
 # mount FS_TREE
-mount -o subvolid=5 UUID=$rid $rfs_path
+mount -o subvolid=5 UUID=${rid} ${rfs_path}
 
 if [ $? -eq 0 ];then
     echo "mount rfs success"
 else
     echo "mount rfs failed! exit"
-    rm -r $rfs_path
+    rm -r ${rfs_path}
     exit -1
 fi
 
-cd $rfs_path
+cd ${rfs_path}
 
 # 检测 @ 子卷是否存在
 if [ -d "./@" ]; then
@@ -58,21 +58,23 @@ else
     exit -1
 fi
 
+mkdir $1/dump/${tm}
+
 #backup snapshot to remote
-bk_path=$1/dump/$(hostname)_rfs_$tm.snap
-echo "backup snapshot @_$tm to $bk_path"
-btrfs send -f $bk_path @_$tm
+bk_pve=$1/dump/${tm}/$(hostname)_${tm}_pve.snap
+echo "backup snapshot @_${tm} to ${bk_pve}"
+btrfs send -f ${bk_pve} @_${tm}
 
 if [ $? -eq 0 ];then
-    echo "backup snapshot @_$tm to $bk_path success"
+    echo "backup snapshot @_${tm} to ${bk_pve} success"
 else
-    echo "backup snapshot @_$tm to $bk_path failed!"
+    echo "backup snapshot @_${tm} to ${bk_pve} failed!"
 fi
 
-echo "delete read-only snapshot @_$tm"
-btrfs sub del @_$tm -c
+echo "delete read-only snapshot @_${tm}"
+btrfs sub del @_${tm} -c
 
 echo "complete backup..."
 cd ..
-umount $rfs_path
-rm -r $rfs_path
+umount ${rfs_path}
+rm -r ${rfs_path}
