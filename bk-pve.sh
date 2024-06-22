@@ -45,11 +45,11 @@ else
 fi
 
 #create snapshot for subvolume
-echo "create read-only snapshot for @ as @_${tm}"
-btrfs sub snap -r @ @_${tm}
+echo "create read-only snapshot for @ as @_ro"
+btrfs sub snap -r @ @_ro
 
 if [ $? -eq 0 ];then
-    echo "create read-only snapshot @_${tm} for @ success"
+    echo "create read-only snapshot @_ro for @ success"
 else
     echo "create snapshot failed! exit"
     cd ..
@@ -62,17 +62,17 @@ mkdir $1/dump/${tm}
 
 #backup snapshot to remote
 bk_pve=$1/dump/${tm}/$(hostname)_${tm}_pve.snap
-echo "backup snapshot @_${tm} to ${bk_pve}"
-btrfs send -f ${bk_pve} @_${tm}
+echo "backup snapshot @_ro to ${bk_pve}"
+btrfs send -f ${bk_pve} @_ro
 
 if [ $? -eq 0 ];then
-    echo "backup snapshot @_${tm} to ${bk_pve} success"
+    echo "backup snapshot @_ro to ${bk_pve} success"
 else
-    echo "backup snapshot @_${tm} to ${bk_pve} failed!"
+    echo "backup snapshot @_ro to ${bk_pve} failed!"
 fi
 
-# echo "delete read-only snapshot @_${tm}"
-# btrfs sub del @_${tm} -c
+# echo "delete read-only snapshot @_ro"
+# btrfs sub del @_ro -c
 
 echo "complete backup..."
 cd ..
