@@ -9,8 +9,8 @@ fi
 
 sblid=$(btrfs sub list / | awk -v sbl=$1 '$9==sbl {print $2}')
 
-echo "作为根目录启动的子卷($1) ID为:$sblid"
-if [[ $sblid =~ ^[0-9]+$ ]]; then
+echo "作为根目录启动的子卷($1) ID为:${sblid}"
+if [[ ${sblid} =~ ^[0-9]+$ ]]; then
     echo "$1 为有效子卷名称"
 else
     echo "$1 不是有效子卷名称，终止执行"
@@ -19,8 +19,8 @@ fi
 
 # 生成17位时间戳字符串
 tm=$(date +'%Y%m%d_%H%M%S')
-rfs_path=./rfs_$tm
-mkdir $rfs_path
+rfs_path=./rfs_${tm}
+mkdir ${rfs_path}
 
 # fetch rootfs disk uuid
 rid=$(lsblk -no UUID $(df -P / | awk 'END{print $1}'))
