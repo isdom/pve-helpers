@@ -26,15 +26,15 @@ mkdir ${rfs_path}
 rid=$(lsblk -no UUID $(df -P / | awk 'END{print $1}'))
 
 # mount rootfs for next boot
-mount -o subvolid=$sblid UUID=$rid $rfs_path
+mount -o subvolid=${sblid} UUID=${rid} ${rfs_path}
 
 # 检测该子卷是否有 boot 目录，如果不存在 boot 目录，则终止设定，避免误操作
-if [ -d "$rfs_path/boot/" ]; then
+if [ -d "${rfs_path}/boot/" ]; then
     echo "$1 为有效的根目录子卷，继续执行设定"
 else
     echo "$1 不是有效的根目录子卷，终止执行"
-    umount $rfs_path
-    rm -r $rfs_path
+    umount ${rfs_path}
+    rm -r ${rfs_path}
     exit -1
 fi
 
@@ -42,19 +42,19 @@ echo "关键性操作：将要修改下次启动的 btrfs 根文件系统设置�
 read -p "确认该操作，请输入 yes，否则输入 no：" input
 
 # 为了避免大小写的问题，将其全部转换成小写处理
-input=$(echo "$input" | tr "[A-Z]" "[a-z]")
+input=$(echo "${input}" | tr "[A-Z]" "[a-z]")
 
-if [ "$input" != "yes" ]; then
+if [ "${input}" != "yes" ]; then
     echo "用户没有输入 yes，终止执行！"
-    umount $rfs_path
-    rm -r $rfs_path
+    umount ${rfs_path}
+    rm -r ${rfs_path}
     exit -1
 else
     echo "用户输入 yes，将执行关键性修改"
 fi
 
-echo "DEBUG: rootfs uuid=$rid"
-btrfs sub set $sblid /
+echo "DEBUG: rootfs uuid=${rid}"
+btrfs sub set ${sblid} /
 echo "DEBUG: btrfs default volume is: $(btrfs sub get /)"
 
 for i in /sys /proc /run /dev; do mount --rbind "$i" "$rfs_path$i"; done
