@@ -57,22 +57,22 @@ echo "DEBUG: rootfs uuid=${rid}"
 btrfs sub set ${sblid} /
 echo "DEBUG: btrfs default volume is: $(btrfs sub get /)"
 
-for i in /sys /proc /run /dev; do mount --rbind "$i" "$rfs_path$i"; done
+for i in /sys /proc /run /dev; do mount --rbind "${i}" "${rfs_path}${i}"; done
 
 # fetch efi disk id
 eid=$(lsblk -no UUID $(df -P /boot/efi | awk 'END{print $1}'))
-echo "mount efi part: "$eid
+echo "mount efi part: "${eid}
 
-mount UUID=$eid $rfs_path/boot/efi
+mount UUID=${eid} ${rfs_path}/boot/efi
 
 rp=$(df -P / | awk 'END{print $1}')
 rdisk=${rp:0:${#rp}-1}
 
-echo "DEBUG: grub will install to $rdisk"
+echo "DEBUG: grub will install to ${rdisk}"
 
-chroot $rfs_path update-grub
-chroot $rfs_path grub-install $rdisk
+chroot ${rfs_path} update-grub
+chroot ${rfs_path} grub-install ${rdisk}
 
 echo "change next boot rootfs to ("$1") success."
-umount -lf $rfs_path
-rm -r $rfs_path
+umount -lf ${rfs_path}
+rm -r ${rfs_path}
