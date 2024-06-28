@@ -2,7 +2,7 @@
  
 # 生成17位时间戳字符串
 tm=$(date +'%Y%m%d_%H%M%S')
-rfs_path=./rfs_$tm
+rfs_path=./rfs_${tm}
 mkdir ${rfs_path}
  
 # 获取 UUID for btrfs device
@@ -14,11 +14,11 @@ if [ $? -eq 0 ];then
     echo "mount rfs success"
 else
     echo "mount rfs failed! exit"
-    rm -r $rfs_path
+    rm -r ${rfs_path}
     exit -1
 fi
  
-cd $rfs_path
+cd ${rfs_path}
  
 #create snapshot for subvolume
 echo "create backup snapshot for @ as @_$tm"
