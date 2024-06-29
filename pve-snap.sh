@@ -21,8 +21,8 @@ fi
 cd ${rfs_path}
  
 #create snapshot for subvolume
-echo "create backup snapshot for @ as @_$tm"
-btrfs sub snap @ @_$tm
+echo "create backup snapshot for @ as @_${tm}"
+btrfs sub snap @ @_${tm}
  
 if [ $? -eq 0 ];then
     echo "create snapshot @_$tm for @ success"
