@@ -36,5 +36,5 @@ fi
  
 echo "complete snapshot..."
 cd ..
-umount $rfs_path
-rm -r $rfs_path
+umount ${rfs_path}
+rm -r ${rfs_path}
