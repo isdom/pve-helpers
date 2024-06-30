@@ -25,12 +25,12 @@ echo "create backup snapshot for @ as @_${tm}"
 btrfs sub snap @ @_${tm}
  
 if [ $? -eq 0 ];then
-    echo "create snapshot @_$tm for @ success"
+    echo "create snapshot @_${tm} for @ success"
 else
     echo "create snapshot failed! exit"
     cd ..
-    umount $rfs_path
-    rm -r $rfs_path
+    umount ${rfs_path}
+    rm -r ${rfs_path}
     exit -1
 fi
  
