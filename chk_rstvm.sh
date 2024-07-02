@@ -8,9 +8,9 @@ fi
 restart_vm(){
     vmid=$1 
 
-    echo "[$(date)] 开始重启虚拟机 $vmid"
+    echo "[$(date)] 开始重启虚拟机 ${vmid}"
 
-    /usr/sbin/qm stop $vmid
+    /usr/sbin/qm stop ${vmid}
     sleep 10s
 
     if /usr/sbin/qm status $vmid | grep -q 'status: stopped'; then
