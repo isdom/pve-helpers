@@ -20,7 +20,7 @@ restart_vm(){
        exit 1
     fi
 
-    /usr/sbin/qm start $vmid
+    /usr/sbin/qm start ${vmid}
 
     if /usr/sbin/qm status $vmid | grep -q 'status: running'; then
        echo "虚拟机 $vmid 已成功启动"
