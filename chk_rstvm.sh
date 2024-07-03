@@ -13,10 +13,10 @@ restart_vm(){
     /usr/sbin/qm stop ${vmid}
     sleep 10s
 
-    if /usr/sbin/qm status $vmid | grep -q 'status: stopped'; then
-        echo "虚拟机 $vmid 已成功关闭"
+    if /usr/sbin/qm status ${vmid} | grep -q 'status: stopped'; then
+        echo "虚拟机 ${vmid} 已成功关闭"
     else
-       echo "虚拟机 $vmid 关闭失败"
+       echo "虚拟机 ${vmid} 关闭失败"
        exit 1
     fi
 
