@@ -22,14 +22,14 @@ restart_vm(){
 
     /usr/sbin/qm start ${vmid}
 
-    if /usr/sbin/qm status $vmid | grep -q 'status: running'; then
-       echo "虚拟机 $vmid 已成功启动"
+    if /usr/sbin/qm status ${vmid} | grep -q 'status: running'; then
+       echo "虚拟机 ${vmid} 已成功启动"
     else
-       echo "虚拟机 $vmid 启动失败"
+       echo "虚拟机 ${vmid} 启动失败"
        exit 1
     fi
 
-    echo "[$(date)] 虚拟机 $vmid 重启完成"
+    echo "[$(date)] 虚拟机 ${vmid} 重启完成"
 }
 
 # 检测网络连接
