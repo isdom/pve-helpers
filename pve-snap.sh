@@ -1,10 +1,13 @@
 #!/bin/bash
- 
+
 # 生成17位时间戳字符串
 tm=$(date +'%Y%m%d_%H%M%S')
 rfs_path=./rfs_${tm}
+
+echo "start pve snapshot using ${rfs_path} tmp dir"
+
 mkdir ${rfs_path}
- 
+
 # 获取 UUID for btrfs device
 rid=$(lsblk -no UUID $(df -P / | awk 'END{print $1}'))
 # mount FS_TREE
@@ -34,7 +37,8 @@ else
     exit -1
 fi
  
-echo "complete snapshot..."
+echo "complete pve snapshot... as FS_TREE/@_${tm}"
+
 cd ..
 umount ${rfs_path}
 rm -r ${rfs_path}
