@@ -60,3 +60,5 @@ btrfs sub del -c $2/@local-btrfs-ro
 ls $1 -l | awk '$9 ~/_vm-/{print $9}' | awk -v pf=$1 -v dst=$2 '{print "btrfs receive -f "pf"/"$0" "dst}' | bash
 ls $2 -l | awk '$9 ~/^vm-/{print $9}' | awk -v pf=$2 '{split($0,x,"-")}{print "btrfs sub snap "pf"/"$0" "pf"/@local-btrfs/images/"x[2]"/"$0}' | bash
 ls $2 -l | awk -v pf=$2 '$9 ~/^vm-/{print "btrfs sub del -c "pf"/"$9}' | bash
+
+echo "restore all vm snapshot success"
