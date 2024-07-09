@@ -1,13 +1,13 @@
 #!/bin/bash
 
 if [ "$#" -ne 1 ]; then
-  echo "需要提供备份 @local-btrfs 子卷的nfs 路径"
+  echo "usage: ./bk-localbtrfs.sh <nfs path for backup @localbtrfs & all vm snapshot>"
   exit -1
 fi
 
 # 检测备份路径的 dump 子目录是否存在
 if [ -d "$1/dump/" ]; then
-    echo "$1 为有效的PVE存储"
+    echo "$1 为有效的PVE存储，继续备份"
 else
     echo "$1 不是有效PVE存储，终止备份"
     exit -1
