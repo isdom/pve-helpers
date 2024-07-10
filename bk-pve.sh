@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$#" -ne 1 ]; then
-  echo "需要提供备份@子卷的nfs 路径"
+  echo "usage: ./bk-pve.sh <nfs path for backup /@>"
   exit -1
 fi
 
