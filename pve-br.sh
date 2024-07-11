@@ -3,7 +3,7 @@
 
 echo "bootfrom script V2.0"
 if [ "$#" -ne 1 ]; then
-    echo "需要提供作为根目录的子卷的名称，usage: ./pve-br.sh <subvol name>"
+    echo "usage: ./pve-br.sh <subvol name>"
     exit -1
 fi
 
