@@ -1,7 +1,6 @@
 #!/bin/bash
 # MEMO: TBD
 
-echo "bootfrom script V2.0"
 if [ "$#" -ne 1 ]; then
     echo "usage: ./pve-br.sh <subvol name>"
     exit -1
