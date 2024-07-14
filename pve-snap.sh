@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "./pve-snap snapshot pve /@ subvol"
+
 # 生成17位时间戳字符串
 tm=$(date +'%Y%m%d_%H%M%S')
 rfs_path=./rfs_${tm}
