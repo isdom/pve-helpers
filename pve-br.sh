@@ -6,6 +6,8 @@ if [ "$#" -ne 1 ]; then
     exit -1
 fi
 
+echo "start to change pve boot subvol..."
+
 sblid=$(btrfs sub list / | awk -v sbl=$1 '$9==sbl {print $2}')
 
 echo "作为根目录启动的子卷($1) ID为:${sblid}"
