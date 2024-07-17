@@ -24,9 +24,9 @@ rid=$(lsblk -no UUID $(df -P / | awk 'END{print $1}'))
 mount -o subvolid=5 UUID=${rid} ${rfs_path}
 
 if [ $? -eq 0 ];then
-    echo "mount rfs success"
+    echo "mount FS_TREE success"
 else
-    echo "mount rfs failed! exit"
+    echo "mount FS_TREE failed! exit"
     rm -r ${rfs_path}
     exit -1
 fi
