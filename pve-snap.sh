@@ -39,7 +39,7 @@ else
     exit -1
 fi
  
-echo "complete pve snapshot... as FS_TREE/@_${tm}"
+echo "make pve snapshot... as FS_TREE/@_${tm} success."
 
 cd ..
 umount ${rfs_path}
