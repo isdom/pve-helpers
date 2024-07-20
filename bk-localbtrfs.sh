@@ -5,6 +5,8 @@ if [ "$#" -ne 1 ]; then
   exit -1
 fi
 
+echo "开始进行备份......"
+
 # 检测备份路径的 dump 子目录是否存在
 if [ -d "$1/dump/" ]; then
     echo "$1 为有效的PVE存储，继续备份"
