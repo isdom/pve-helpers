@@ -9,12 +9,12 @@ fi
 rid=$(lsblk -no UUID $(df -P / | awk 'END{print $1}'))
 
 # mount FS_TREE
-sudo mkdir -p /mnt/backup
-sudo mount -o subvolid=5 UUID=${rid} /mnt/backup
+sudo mkdir -p /mnt/top
+sudo mount -o subvolid=5 UUID=${rid} /mnt/top
 
 SNAP_DATE="$1"
-SNAP_ROOT="/mnt/backup/timeshift-btrfs/snapshots/${SNAP_DATE}/@"
-SNAP_HOME="/mnt/backup/timeshift-btrfs/snapshots/${SNAP_DATE}/@home"
+SNAP_ROOT="/mnt/top/timeshift-btrfs/snapshots/${SNAP_DATE}/@"
+SNAP_HOME="/mnt/top/timeshift-btrfs/snapshots/${SNAP_DATE}/@home"
 
 echo "$SNAP_ROOT"
 echo "$SNAP_HOME"
@@ -45,7 +45,7 @@ echo "Home snapshot ro=$RO_HOME"
 if [ "$RO_ROOT" = "true" ]; then
     SEND_ROOT="$SNAP_ROOT"
 else
-    TMP_ROOT="/mnt/backup/@-send-ro"
+    TMP_ROOT="/mnt/top/@-send-ro"
     if [ -d "$TMP_ROOT" ]; then
         echo "存在旧的只读备份快照，删除旧的只读备份 $TMP_ROOT..."
         sudo btrfs subvolume delete "$TMP_ROOT"
@@ -58,7 +58,7 @@ fi
 if [ "$RO_HOME" = "true" ]; then
     SEND_HOME="$SNAP_HOME"
 else
-    TMP_HOME="/mnt/backup/@home-send-ro"
+    TMP_HOME="/mnt/top/@home-send-ro"
     if [ -d "$TMP_HOME" ]; then
         echo "存在旧的只读备份快照，删除旧的只读备份 $TMP_HOME..."
         sudo btrfs subvolume delete "$TMP_HOME"
@@ -70,10 +70,10 @@ fi
 echo "Send @ ro snapshot: $SEND_ROOT"
 echo "Send @home ro snapshot: $SEND_HOME"
 
-echo "start backup $SEND_ROOT snapshot to archive file /tmp/@.btrfs"
-sudo btrfs send "$SEND_ROOT" -f /tmp/@.btrfs
+echo "start backup $SEND_ROOT snapshot to archive file /root/@.btrfs"
+sudo btrfs send "$SEND_ROOT" -f /root/@.btrfs
 echo "finish backup $SEND_ROOT snapshot"
 
-echo "start backup $SEND_HOME snapshot to archive file /tmp/@home.btrfs"
-sudo btrfs send "$SEND_HOME" -f /tmp/@home.btrfs
+echo "start backup $SEND_HOME snapshot to archive file /root/@home.btrfs"
+sudo btrfs send "$SEND_HOME" -f /root/@home.btrfs
 echo "finish backup $SEND_HOME snapshot"
